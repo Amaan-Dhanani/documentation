@@ -1,54 +1,58 @@
 <script lang="ts">
-  import { cn } from "$components/utils";
   import type { Props } from "..";
   import markdownit from "markdown-it";
+  import hljs from "highlight.js";
+  import hljs_svelte from "highlightjs-svelte";
   import { fade } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
 
-  const md = new markdownit({
+  hljs_svelte(hljs);
+
+  // Highlight function for markdown-it
+  const highlight: (str: string, lang: string) => string = (str, lang) => {
+    try {
+      if (lang && hljs.getLanguage(lang)) {
+        return `<pre><code class="hljs language-${lang}">${
+          hljs.highlight(str, { language: lang }).value
+        }</code></pre>`;
+      }
+      return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
+    } catch {
+      return `<pre><code class="hljs">${md.utils.escapeHtml(str)}</code></pre>`;
+    }
+  };
+
+  const md = markdownit({
     html: true,
     linkify: true,
     typographer: true,
+    highlight,
   });
 
-  let {
-    class: className,
-    MarkdownClass = "prose prose-lg h-screen prose-invert max-w-none p-4 bg-[#0d1117] [&:not(pre)>code]:px-1.5 py-5 bg-neutral-800 [&_code::before,&_code::after]:content-none [&_pre]:p-4 overflow-x-auto",
-    src = "",
-  }: Props = $props();
-
+  let { src = "" }: Props = $props();
   let html = $state("");
-  let displayedHtml = $state(""); // content that actually renders
-  let MarkdownCls = $state(cn(MarkdownClass, className));
+  let displayedHtml = $state("");
 
   $effect(() => {
-    MarkdownCls = cn(MarkdownClass, className);
-  });
-
-  // fetch markdown whenever src changes
-  $effect(async () => {
     if (!src) return;
 
-    try {
-      const res = await fetch(src);
-      const text = await res.text();
-      html = md.render(text);
+    (async () => {
+      try {
+        const res = await fetch(src);
+        const text = await res.text();
+        html = md.render(text);
 
-      // trigger fade-out then fade-in
-      displayedHtml = "";
-      setTimeout(() => {
+        displayedHtml = "";
+        setTimeout(() => (displayedHtml = html), 50);
+      } catch {
+        html = "<p style='color:red'>Failed to load markdown</p>";
         displayedHtml = html;
-      }, 50); // slight delay to allow fade-out
-    } catch (e) {
-      html = "<p class='text-red-500'>Failed to load markdown</p>";
-      displayedHtml = html;
-    }
+      }
+    })();
   });
 </script>
 
-<!-- Outer div keeps background and sizing -->
-<div class={MarkdownCls}>
-  <!-- Inner div fades in/out content -->
+<div class="markdown-body px-10">
   {#if displayedHtml}
     <div
       in:fade={{ duration: 500, easing: cubicOut }}
@@ -58,4 +62,15 @@
       {@html displayedHtml}
     </div>
   {/if}
+
+  <!-- GitHub Markdown CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.css"
+  />
+  <!-- Highlight.js theme -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+  />
 </div>

@@ -1,5 +1,4 @@
 ## `SVELTEKIT-MONGODB-TEMP > START DATABASE`
----
 
 We will store our users in a MongoDB database. We will use [MongoDB Altas](https://mongodb.com/atlas) which is their cloud-based solution.
   

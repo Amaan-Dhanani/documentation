@@ -1,5 +1,4 @@
 ## `SVELTEKIT-MONGODB-TEMP > THEME SETUP`
----
 
 
 Add a theme section inside a `.css` file (preferably imported in `+layout.svelte`):
