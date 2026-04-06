@@ -12,7 +12,7 @@
 </script>
 
 <div
-  class="relative flex h-screen w-full max-w-xs flex-col bg-gray-900 p-4 text-gray-200 shadow-xl shadow-black/30"
+  class="relative flex w-full max-w-xs flex-col bg-gray-900 p-4 text-gray-200 shadow-xl shadow-black/30"
 >
   <nav class="flex flex-col gap-1 p-2 text-base font-normal">
     {#each items as item, i}

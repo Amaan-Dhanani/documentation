@@ -35,7 +35,7 @@
 </script>
 
 
-<div class="flex w-full">
+<div class="flex w-full h-screen bg-[#0d1117]">
   <Sidebar items={sidebarItems} />
   <div class="flex-1 overflow-y-auto">
     <Markdown {src} />
