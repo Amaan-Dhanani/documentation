@@ -2,7 +2,7 @@
 
 Install (done):
 ```bash
-bun add @capacitor/core @capacitor/android @capacitor/ios @capacitor/preferences
+bun add @capacitor/core @capacitor/android @capacitor/ios
 bun add -d @capacitor/cli
 ```
 
