@@ -6,16 +6,25 @@
 
   // === DON'T TOUCH ANYTHING ABOVE THIS LINE ==== //
 
-  const sidebarItems = [
-    {
-      label: "sveltekit-mongodb-temp",
-      children: [
-        { label: "Start Database", onClick: () => src = "/sveltekit-mongodb-temp/Start_Database.md" },
-        { label: "Protecting Routes", onClick: () => src = "/sveltekit-mongodb-temp/Protecting_Routes.md" },
-        { label: "Theme Setup", onClick: () => src = "/sveltekit-mongodb-temp/Theme_Setup.md" },
-      ],
-    },
-  ];
+const sidebarItems = [
+  {
+    label: "sveltekit-mongodb-temp",
+    bold: true, // explicitly bold
+    children: [
+      {
+        label: "Essentials for Deployment",
+        bold: true,
+        children: [
+          { label: "Environment Variables", onClick: () => (src = "/sveltekit-mongodb-temp/Environment_Variables.md") },
+          { label: "Capacitor (Mobile Deployment)", onClick: () => (src = "/sveltekit-mongodb-temp/Capacitor.md") },
+          { label: "Vercel (Web Deployment)", onClick: () => (src = "/sveltekit-mongodb-temp/Vercel.md") },
+        ],
+      },
+      { label: "Protecting Routes", onClick: () => (src = "/sveltekit-mongodb-temp/Protecting_Routes.md") },
+      { label: "Theme Setup", onClick: () => (src = "/sveltekit-mongodb-temp/Theme_Setup.md") },
+    ],
+  },
+];
 
   // === DON'T TOUCH ANYTHING BELOW THIS LINE ==== //
 
